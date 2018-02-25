@@ -2,15 +2,20 @@
 Additional scripts to automate vhd2vl together with icestorm
 
 Prerequisites:
+
 yosys - http://www.clifford.at/yosys/download.html
 icestorm tools + arachne-pnr - http://www.clifford.at/icestorm/
 
 Usage:
+
 $ git clone https://github.com/iamaiy/vhd2icestorm
+
 $ cd vhd2icestorm
+
 $ make
 
 (Optional, if you have a lattice icestick available) 
+
 $ make prog
 
 the sources are located in vhd/
