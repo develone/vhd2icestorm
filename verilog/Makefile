@@ -3,13 +3,19 @@
 # PROJ = checker
 # PROJ = top
 
-PIN_DEF = ../constraint/icestick.pcf
-DEVICE = hx1k
+#PIN_DEF = ../constraint/icestick.pcf
+#DEVICE = hx1k
+
+SRC := $(shell find . -name '*.v')
+#SRC := top.v uart.v
 
 all: $(PROJ).rpt $(PROJ).bin
 
-%.blif: %.v
-	yosys -p 'synth_ice40 -top top -blif $@' $<
+#%.blif: %.v
+#	yosys -p 'synth_ice40 -top top -blif $@' $<
+
+$(PROJ).blif: $(SRC)
+	yosys -q -Q -p "synth_ice40 -top $(PROJ) -blif $@" $(SRC)
 
 %.asc: $(PIN_DEF) %.blif
 	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
@@ -37,6 +43,9 @@ all: $(PROJ).rpt $(PROJ).bin
 
 prog: $(PROJ).bin
 	iceprog $<
+
+prog-ram: $(PROJ).bin
+	iceprog -S $<
 
 sudo-prog: $(PROJ).bin
 	@echo 'Executing prog as root!!!'

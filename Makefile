@@ -6,11 +6,12 @@ export PROJ = top
 SRC = vhd
 
 #Pin definition file
-export PIN_DEF = constraint/icestick.pcf
+export PIN_DEF = $(CURDIR)/constraint/icestick.pcf
 export DEVICE = hx1k
 
 #path to vhd2vl
-VHD2VL   = $(CURDIR)/vhd2vl/src/vhd2vl
+VHD2VL	= $(CURDIR)/vhd2vl/src/vhd2vl
+GHDL	= ghdl
 
 # Intermediate verilog directory (output from vhd2vl)
 # Needs to contain makefile from icestorm
@@ -31,10 +32,14 @@ all: vhd2vl translate
 	@make -C $(VERILOG)
 
 #Translate VHDL to Verilog
+syntax-check:
+	@echo "Checking VHDL syntax with GHDL"
+	(GHDL) --clean
+	@cd $(SRC); \
+	$(foreach VHDL,$(VHDLS), echo "Processing: $(VHDL)";\
+	$(GHDL) -a $(VHDL);)
+	
 translate:
-	@#make -C vhd
-	#@rm -fr $(VERILOG)
-	#@mkdir -p $(VERILOG)
 	@echo "Translating vhdl to verilog"
 	@cd $(SRC); \
 	$(foreach VHDL,$(VHDLS), echo "Processing: $(VHDL)";\
@@ -44,9 +49,12 @@ translate:
 prog: vhd2vl translate
 	make prog -C verilog
 
+prog-ram: vhd2vl translate
+	make prog-ram -C verilog
+   
 #Download vhd2vl from github
 vhd2vl: vhd2vl-check
-	make -C vhd2vl	
+	make -C vhd2vl/src	
 
 vhd2vl-check:
 	@echo "Checking for vhd2vl ."

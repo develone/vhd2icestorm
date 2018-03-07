@@ -4,7 +4,7 @@ use IEEE.std_logic_1164.all;
 
 entity reset is
 	generic(
-		LENGTH : integer range 2 to 7 := 3
+		LENGTH : integer := 3
 	);
 	port(
 		preset : in std_logic;
