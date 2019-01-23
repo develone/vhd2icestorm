@@ -38,7 +38,7 @@ syntax-check:
 	@cd $(SRC); \
 	$(foreach VHDL,$(VHDLS), echo "Processing: $(VHDL)";\
 	$(GHDL) -a $(VHDL);)
-	
+
 translate:
 	@echo "Translating vhdl to verilog"
 	@cd $(SRC); \
@@ -51,10 +51,10 @@ prog: vhd2vl translate
 
 prog-ram: vhd2vl translate
 	make prog-ram -C verilog
-   
+
 #Download vhd2vl from github
 vhd2vl: vhd2vl-check
-	make -C vhd2vl/src	
+	make -C vhd2vl/src
 
 vhd2vl-check:
 	@echo "Checking for vhd2vl ."
@@ -65,6 +65,7 @@ vhd2vl-check:
 clean:
 	make clean -C verilog
 	rm -f $(VERILOG)/*.v
+	rm -fr *.log
 
 dist-clean: clean
 	rm -fr vhd2vl

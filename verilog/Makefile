@@ -9,7 +9,7 @@
 SRC := $(shell find . -name '*.v')
 #SRC := top.v uart.v
 
-#all: $(PROJ).rpt $(PROJ).bin
+all: $(PROJ).rpt $(PROJ).bin
 
 #%.blif: %.v
 #	yosys -p 'synth_ice40 -top top -blif $@' $<
@@ -21,10 +21,21 @@ SRC := $(shell find . -name '*.v')
 #	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
 
 $(PROJ).json: $(SRC)
-	yosys -q -Q -p "synth_ice40 -top $(PROJ) -json $@" $(SRC)
+	yosys -Q \
+	-p hierarchy \
+	-p proc \
+	-p opt \
+	-p "tee -o ../synthesis.log" \
+	-p "synth_ice40 -top $(PROJ) -json $@" $(SRC)
 
 %.asc: $(PIN_DEF) %.json
-	nextpnr-ice40 --pcf-allow-unconstrained --$(DEVICE) --asc $@ --pcf $(PIN_DEF) --json $(PROJ).json
+	nextpnr-ice40 \
+	--pcf-allow-unconstrained \
+	--$(DEVICE) \
+	--asc $@ \
+	--pcf $(PIN_DEF) \
+	--json $(PROJ).json \
+	-l ../place_and_route.log
 
 %.bin: %.asc
 	icepack $< $@
@@ -32,7 +43,7 @@ $(PROJ).json: $(SRC)
 %.rpt: %.asc
 	icetime -d $(DEVICE) -mtr $@ $<
 
-all: $(PROJ).rpt $(PROJ).bin
+#all: $(PROJ).rpt $(PROJ).bin
 
 %_tb: %_tb.v %.v
 	iverilog -o $@ $^
