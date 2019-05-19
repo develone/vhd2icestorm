@@ -9,7 +9,7 @@ use ieee.numeric_std.all;
 
 entity top is
 generic(
-	uarts : integer := 8
+	uarts : integer := 5
 );
 port (
 	clk		: in 	std_logic;

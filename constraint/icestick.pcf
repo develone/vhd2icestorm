@@ -9,3 +9,22 @@ set_io led[2] 97
 set_io led[3] 96
 set_io led[4] 95
 set_io clk 21
+
+set_io --warn-no-port rx[1] 78
+set_io --warn-no-port tx[1] 79
+set_io --warn-no-port rx[2] 80
+set_io --warn-no-port tx[2] 81
+set_io --warn-no-port rx[3] 87
+set_io --warn-no-port tx[3] 88
+set_io --warn-no-port rx[4] 90
+set_io --warn-no-port tx[4] 91
+set_io --warn-no-port rx[5] 112
+set_io --warn-no-port tx[5] 113
+set_io --warn-no-port rx[6] 114
+set_io --warn-no-port tx[6] 115
+set_io --warn-no-port rx[7] 116
+set_io --warn-no-port tx[7] 117
+set_io --warn-no-port rx[8] 118
+set_io --warn-no-port tx[8] 119
+#set_io --warn-no-port rx[9] 62
+#set_io --warn-no-port tx[9] 61

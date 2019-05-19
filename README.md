@@ -1,10 +1,10 @@
 # vhd2icestorm
-Additional scripts to automate vhd2vl together with icestorm
+Additional scripts to automate vhd2vl together with Yosys, NextPNR/arachne-pnr and icestorm
 
 Prerequisites:
 
 yosys - http://www.clifford.at/yosys/download.html
-icestorm tools + nextpnr - http://www.clifford.at/icestorm/
+icestorm tools + arachne-pnr/nextpnr - http://www.clifford.at/icestorm/
 
 Usage:
 
@@ -13,6 +13,13 @@ $ git clone https://github.com/iamaiy/vhd2icestorm
 $ cd vhd2icestorm
 
 $ make
+
+or
+
+$ make PNR=arachne-pnr
+$ make PNR=nextpnr
+
+to run with specified place and route tool
 
 (Optional, if you have a lattice icestick available) 
 

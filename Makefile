@@ -28,8 +28,11 @@ EXCLUDE := $(addsuffix .vhd,$(EXCLUDE))
 VHDLS    = $(sort $(wildcard $(SRC)/*.vhd))
 VHDLS   := $(notdir $(VHDLS))
 
+#Place and route tool
+PNR := nextpnr
+
 all: vhd2vl translate
-	@make -C $(VERILOG)
+	@make -C $(VERILOG) PNR=$(PNR)
 
 #Translate VHDL to Verilog
 syntax-check:

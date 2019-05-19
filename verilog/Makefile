@@ -1,49 +1,38 @@
-# PROJ = example
-# PROJ = rs232demo
-# PROJ = checker
-# PROJ = top
 
-#PIN_DEF = ../constraint/icestick.pcf
-#DEVICE = hx1k
+
+YOSYS_OPTS := -Q -p hierarchy -p proc -p opt -p "tee -o ../synthesis.log"
+NEXTPNR_OPTS := --pcf-allow-unconstrained -l ../place_and_route.log
 
 SRC := $(shell find . -name '*.v')
-#SRC := top.v uart.v
 
 all: $(PROJ).rpt $(PROJ).bin
 
-#%.blif: %.v
-#	yosys -p 'synth_ice40 -top top -blif $@' $<
+ifeq ($(PNR), arachne-pnr)
 
-#$(PROJ).blif: $(SRC)
-#	yosys -q -Q -p "synth_ice40 -top $(PROJ) -blif $@" $(SRC)
+%.blif: %.v
+	yosys -p 'synth_ice40 -top top -blif $@' $<
 
-#%.asc: $(PIN_DEF) %.blif
-#	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
+$(PROJ).blif: $(SRC)
+	yosys $(YOSYS_OPTS) -p "synth_ice40 -top $(PROJ) -blif $@" $(SRC)
+
+%.asc: $(PIN_DEF) %.blif
+	arachne-pnr -d $(subst hx,,$(subst lp,,$(DEVICE))) -o $@ -p $^
+
+else
 
 $(PROJ).json: $(SRC)
-	yosys -Q \
-	-p hierarchy \
-	-p proc \
-	-p opt \
-	-p "tee -o ../synthesis.log" \
-	-p "synth_ice40 -top $(PROJ) -json $@" $(SRC)
+	yosys $(YOSYS_OPTS) -p "synth_ice40 -top $(PROJ) -json $@" $(SRC)
 
 %.asc: $(PIN_DEF) %.json
-	nextpnr-ice40 \
-	--pcf-allow-unconstrained \
-	--$(DEVICE) \
-	--asc $@ \
-	--pcf $(PIN_DEF) \
-	--json $(PROJ).json \
-	-l ../place_and_route.log
+	nextpnr-ice40 $(NEXTPNR_OPTS) --$(DEVICE) --pcf $(PIN_DEF) --asc $@ --json $(PROJ).json
+
+endif
 
 %.bin: %.asc
 	icepack $< $@
 
 %.rpt: %.asc
 	icetime -d $(DEVICE) -mtr $@ $<
-
-#all: $(PROJ).rpt $(PROJ).bin
 
 %_tb: %_tb.v %.v
 	iverilog -o $@ $^
