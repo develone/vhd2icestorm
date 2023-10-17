@@ -6,8 +6,8 @@ export PROJ = top
 SRC = vhd
 
 #Pin definition file
-export PIN_DEF = $(CURDIR)/constraint/icestick.pcf
-export DEVICE = hx1k
+export PIN_DEF = $(CURDIR)/constraint/helloworld.pcf
+export DEVICE = hx8k
 
 #path to vhd2vl
 VHD2VL	= $(CURDIR)/vhd2vl/src/vhd2vl
