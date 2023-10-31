@@ -9,7 +9,7 @@ use ieee.numeric_std.all;
 
 entity top is
 generic(
-	uarts : integer := 5
+	uarts : integer := 2
 );
 port (
 	clk		: in 	std_logic;
@@ -18,7 +18,7 @@ port (
 	tx	: out std_logic_vector(uarts-1 downto 0);
 
 	--LEDs
-	led : out std_logic_vector(4 downto 0)
+	led : out std_logic_vector(3 downto 0)
 	
 );
 end top;
@@ -26,8 +26,8 @@ end top;
 architecture behavioural of top is
 
 constant BIT_WIDTH		: integer := 11;
-constant BAUD_RATE 		: integer := 9600;
-constant CLOCK_FREQ_HZ 	: integer := 12000000;
+constant BAUD_RATE 		: integer := 230400;
+constant CLOCK_FREQ_HZ 	: integer := 100000000;
 
 signal sig_counter : unsigned(23 downto 0);
 

@@ -1,7 +1,7 @@
 
 
-YOSYS_OPTS := -Q -p hierarchy -p proc -p opt -p "tee -o ../synthesis.log"
-NEXTPNR_OPTS := --pcf-allow-unconstrained -l ../place_and_route.log
+YOSYS_OPTS := -l ../yosys.log -Q -p hierarchy -p proc -p opt -p "tee -o ../synthesis.log"
+NEXTPNR_OPTS := --pcf-allow-unconstrained --package ct256 -l ../place_and_route.log
 
 SRC := $(shell find . -name '*.v')
 
