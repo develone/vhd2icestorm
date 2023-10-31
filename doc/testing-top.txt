@@ -1,0 +1,82 @@
+devel@pi4-20:~ $ rsync -avl --delete vhd2icestorm pi4-40:/home/devel/rtl-testing/pi4-20/
+
+devel@pi4-30:~ $ rsync -avl --delete vhd2icestorm pi4-40:/home/devel/rtl-testing/pi4-30/
+
+
+devel@pi4-40:~ $ cd rtl-testing/pi4-20/vhd2icestorm/verilog/
+devel@pi4-40:~/rtl-testing/pi4-20/vhd2icestorm/verilog $ sudo config_cat top.bin
+ 
+OK: GPIO 25 exported
+OK: GPIO 17 exported
+OK: GPIO 22 exported
+
+OK: SPI driver loaded
+
+Setting GPIO directions
+out
+out
+in
+Setting output to low
+0
+Reseting FPGA
+0
+1
+Checking DONE pin
+0
+Continuing with configuration procedure
+263+1 records in
+263+1 records out
+135100 bytes (135 kB, 132 KiB) copied, 0.030933 s, 4.4 MB/s
+Setting output to high
+1
+
+Checking DONE pin
+1
+
+devel@pi4-40:~ $ minicom myusb0
+A -    Serial Device      : /dev/ttyUSB0
+E -    Bps/Par/Bits       : 230400 8N1
+abcdefghijklmnopqrstuvwxyz1234567890
+
+devel@pi4-40:~ $ minicom myusb1
+A -    Serial Device      : /dev/ttyUSB1
+E -    Bps/Par/Bits       : 230400 8N1
+abcdefghijklmnopqrstuvwxyz1234567890
+
+devel@pi4-40:~/rtl-testing/pi4-30/vhd2icestorm/verilog $ sudo config_cat top.bin
+
+OK: GPIO 25 exported
+OK: GPIO 17 exported
+OK: GPIO 22 exported
+
+OK: SPI driver loaded
+
+Setting GPIO directions
+out
+out
+in
+Setting output to low
+0
+Reseting FPGA
+0
+1
+Checking DONE pin
+0
+Continuing with configuration procedure
+263+1 records in
+263+1 records out
+135100 bytes (135 kB, 132 KiB) copied, 0.0310729 s, 4.3 MB/s
+Setting output to high
+1
+Checking DONE pin
+1
+
+devel@pi4-40:~ $ minicom myusb0
+A -    Serial Device      : /dev/ttyUSB0
+E -    Bps/Par/Bits       : 230400 8N1
+135100 bytes (135 kB, 132 KiB) copied, 0.030933 s, 4.4 MB/s
+
+devel@pi4-40:~ $ minicom myusb1
+A -    Serial Device      : /dev/ttyUSB1
+E -    Bps/Par/Bits       : 230400 8N1
+135100 bytes (135 kB, 132 KiB) copied, 0.030933 s, 4.4 MB/s
