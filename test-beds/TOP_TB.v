@@ -3,24 +3,26 @@ module TOP_TB ();
 parameter BIT_WIDTH = 11;
 parameter BAUD_RATE = 9600;
 parameter CLOCK_FREQ_HZ = 100000000;
-parameter [31:0] uarts=5;
-reg r_clk;
+parameter [31:0] uarts=2;
+reg clk;
 wire [uarts - 1:0] rx;
 wire [uarts - 1:0] tx;
-wire [4:0] led;
-//top top_ins(
-//.clk(r_clk),
-//.[uarts - 1:0] rx([uarts - 1:0] rx),
-//.[uarts - 1:0] tx([uarts - 1:0] tx),
-//.[4:0] led([4:0] led)
-//);
+wire [3:0] led;
+
+main main_ins0 #(.BIT_WIDTH(BIT_WIDTH),.BAUD_RATE(BAUD_RATE),.CLOCK_FREQ_HZ(CLOCK_FREQ_HZ),.uarts(uarts))
+(
+.clk(clk),
+.[uarts - 1:0] rx(rx),
+.[uarts - 1:0] tx(tx),
+.[3:0] led([3:0] led)
+);
 
 
 initial
 begin 
-r_clk = 0;
+clk = 0;
 forever begin
-#10 r_clk = ~r_clk;
+#10 clk = !clk;
 end
 end
 
