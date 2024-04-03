@@ -26,8 +26,8 @@ end top;
 architecture behavioural of top is
 
 constant BIT_WIDTH		: integer := 11;
-constant BAUD_RATE 		: integer := 230400;
-constant CLOCK_FREQ_HZ 	: integer := 100000000;
+constant BAUD_RATE 		: integer := 4000000;
+constant CLOCK_FREQ_HZ 	: integer := 80000000;
 
 signal sig_counter : unsigned(23 downto 0);
 
